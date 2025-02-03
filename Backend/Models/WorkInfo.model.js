@@ -32,22 +32,34 @@ const workInfoSchema=mongoose.Schema({
                 type:String,
                 require:true
         },
-        noOfBraman:{
+        noOfBrahman:{
                 type:String,
                 require:true
         },
-        noOfBramanrequired:{
+        noOfBramhanrequired:{
                 type:Number,
                 require:true
         },
-        noOfBramanweave:{
+        noOfBramhanweave:{
                 type:Number,
                 require:true
         },
         note:{
                 type:String,
                 require:false
-        }
+        },
+        bramhan: [{
+                type: mongoose.Schema.Types.ObjectId,
+                ref: 'Brahman', // Referencing the User model by name
+                default:[]
+            }],
+
+            user:{
+                type:mongoose.Schema.Types.ObjectId,
+                ref:'User'
+            }
+
+
 },{timestamps:true})
 const workInfo=mongoose.model("Workinfo",workInfoSchema)
 export default workInfo

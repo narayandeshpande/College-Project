@@ -5,8 +5,8 @@ export const addWorkInfo=async(req,res)=>{
                 console.log(workname,date,stime,ftime,place,money,phone,maplink,noOfBraman,note)
                 const todaydate = new Date();
                 const onlyDate = todaydate.toISOString().split('T')[0];
-                // && ftime>stime && Number(money) && phone.length == 10 && Number(noOfBraman))
-                if((date>onlyDate || date==onlyDate) )
+                // 
+                if((date>onlyDate || date==onlyDate)&& ftime>stime && Number(money) && phone.length == 10 && Number(noOfBraman))
                 {
                         const newWork=await new WorkInfo({
                                 workname,
@@ -30,6 +30,17 @@ export const addWorkInfo=async(req,res)=>{
                 }
         } catch (error) {
                 console.log("error in addwork controller" + error);
+                res.status(500).json({ error: "Internal server error" })
+        }
+}
+
+export const home=async(req,res)=>{
+        try {
+                const allData= await WorkInfo.find()
+                // console.log(allData)
+                res.status(201).json(allData)
+        } catch (error) {
+                console.log("error in home controller" + error);
                 res.status(500).json({ error: "Internal server error" })
         }
 }

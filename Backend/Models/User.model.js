@@ -12,7 +12,15 @@ const userSchema=mongoose.Schema({
         password:{
                 type:String,
                 require:true
-        }
+        },
+        workInfos: [
+                {
+                    type: mongoose.Schema.Types.ObjectId,
+                    ref: 'workInfo', // References the Workinfo model
+                    default:[]
+                },
+            ],
+
 
 },{timestamps:true})
 const User=mongoose.model("User",userSchema)
