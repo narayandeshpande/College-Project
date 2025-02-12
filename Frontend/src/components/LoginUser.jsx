@@ -22,7 +22,7 @@ const LoginUser = () => {
     };
 
     await axios
-      .post('http://localhost:4000/user/login', userInfo, {
+      .post('http://localhost:3000/user/login', userInfo, {
         withCredentials: true,
       })
       .then((res) => {
@@ -34,6 +34,7 @@ const LoginUser = () => {
         }
       })
       .catch((errors) => {
+        // console.log(errors)
         toast.error(errors.response.data.error);
       });
   };

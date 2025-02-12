@@ -8,7 +8,7 @@ useEffect(()=>{
         
                 const getAllwork=async()=>{
                        
-                               await axios.get("http://localhost:4000/work/home",{
+                               await axios.get("http://localhost:3000/work/home",{
                                         withCredentials:true
                                 })
                                 .then((res)=>{

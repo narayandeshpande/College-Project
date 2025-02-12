@@ -11,13 +11,13 @@ const SignupBramhin = () => {
 
   const onSubmit = async (data) => {
     try {
-      const res = await axios.post("http://localhost:4000/bramhin/signup", data, {
+      const res = await axios.post("http://localhost:3000/bramhin/signup", data, {
         withCredentials: true
       });
       if (res.status === 201) {
         toast.success(res.data.message);
         setTimeout(() => {
-          navigate("/login");
+          navigate("/login?role=bramhin");
         }, 2000);
       }
     } catch (error) {
@@ -36,7 +36,7 @@ const SignupBramhin = () => {
 
     console.log("otp button clicked");
     try {
-      const res = await axios.post("http://localhost:4000/bramhin/sendotp", currentUserInfo, {
+      const res = await axios.post("http://localhost:3000/bramhin/sendotp", currentUserInfo, {
         withCredentials: true
       });
       toast.success(res.data.message);

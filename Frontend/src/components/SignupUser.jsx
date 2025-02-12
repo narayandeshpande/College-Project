@@ -14,13 +14,13 @@ const SignupUser = () => {
 
   const onSubmit = async (data) => {
     try {
-      const res = await axios.post("http://localhost:4000/user/signup", data, {
+      const res = await axios.post("http://localhost:3000/user/signup", data, {
         withCredentials: true
       });
       if (res.status === 201) {
         toast.success(res.data.message);
         setTimeout(() => {
-          navigate("/loginuser");
+          navigate("/login?role=user");
         }, 2000);
       }
     } catch (error) {
@@ -39,7 +39,7 @@ const SignupUser = () => {
 
     console.log("otp button clicked");
     try {
-      const res = await axios.post("http://localhost:4000/user/emailotp", currentUserInfo, {
+      const res = await axios.post("http://localhost:3000/user/emailotp", currentUserInfo, {
         withCredentials: true
       });
       toast.success(res.data.message);

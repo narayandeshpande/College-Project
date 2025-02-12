@@ -1,6 +1,6 @@
 import mongoose from "mongoose";
 const BramhanSchema=mongoose.Schema({
-        fullName:{
+        fullname:{
                 type:String,
                 require:true
         },
@@ -21,13 +21,20 @@ const BramhanSchema=mongoose.Schema({
                 type:String,
                 require:true 
         },    
-        works:[
+        worksaceept:[
                 {
                         type:mongoose.Schema.Types.ObjectId,
                         ref:'workInfo',
                         default:[]
                 }
-        ]  
+        ],
+        workscreate:[
+                {
+                        type:mongoose.Schema.Types.ObjectId,
+                        ref:'workInfo',
+                        default:[]
+                }
+        ]   
 
 },{timestamps:true})
 const Brahman=mongoose.model("Bramahn",BramhanSchema)

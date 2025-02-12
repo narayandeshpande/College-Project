@@ -1,23 +1,23 @@
 import React from 'react';
 import { useNavigate } from 'react-router-dom';
 import toast from 'react-hot-toast';
-const HRY = () => {
+const WRY = () => {
 
-  
-    const navigate = useNavigate();
-    const handelClick1 = () => {
-      toast.success("You are Yajman");
-      setTimeout(() => {
-        navigate(`/login?role=${'user'}`); // Navigate with the role parameter
-      }, 2000);
-    };
-    
-    const handelClick2 = () => {
-      toast.success("You are Bramhin");
-      setTimeout(() => {
-        navigate(`/login?role=${'Bramhin'}`); // Navigate with the role parameter
-      }, 2000);
-    };
+
+  const navigate = useNavigate();
+  const handelClick1 = () => {
+    toast.success("You are Yajman");
+    setTimeout(() => {
+      navigate(`/login?role=${'user'}`); // Navigate with the role parameter
+    }, 2000);
+  };
+
+  const handelClick2 = () => {
+    toast.success("You are Bramhin");
+    setTimeout(() => {
+      navigate(`/login?role=${'Bramhin'}`); // Navigate with the role parameter
+    }, 2000);
+  };
 
 
   return (
@@ -35,4 +35,4 @@ const HRY = () => {
   );
 };
 
-export default HRY;
+export default WRY;

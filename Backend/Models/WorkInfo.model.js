@@ -54,9 +54,13 @@ const workInfoSchema=mongoose.Schema({
                 default:[]
             }],
 
-            user:{
+            createdByuser:{
                 type:mongoose.Schema.Types.ObjectId,
                 ref:'User'
+            },
+            createdBybramhin:{
+                type:mongoose.Schema.Types.ObjectId,
+                ref:'Brahman'
             }
 
 

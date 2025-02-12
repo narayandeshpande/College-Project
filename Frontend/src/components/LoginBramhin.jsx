@@ -19,7 +19,7 @@ const LoginBramhin = () => {
     };
 
     await axios
-      .post('http://localhost:4000/bramhin/login', userInfo, {
+      .post('http://localhost:3000/bramhin/login', userInfo, {
         withCredentials: true,
       })
       .then((res) => {
@@ -31,6 +31,7 @@ const LoginBramhin = () => {
         }
       })
       .catch((errors) => {
+        // console.log(errors)
         toast.error(errors.response.data.error);
       });
   };

@@ -1,8 +1,9 @@
-import e from 'express';
 import Bramhin from '../Models/Bramahn.model.js'
+// import workInfo from '../Models/WorkInfo.model.js'
 import nodemailer from 'nodemailer'
 import bcryptjs from 'bcryptjs'
 import { createTokenAndSaveCookie } from '../JWT/generateToken.js';
+import workInfo from '../Models/WorkInfo.model.js';
 const OTP = Math.floor(100000 + Math.random() * 900000)
 export const signup = async (req, res) => {
   const { fullname, email, password, address, otp, no } = req.body;
@@ -89,12 +90,70 @@ export const login = async (req, res) => {
   }
 }
 
-export const logout=(req,res)=>{
+export const logout = (req, res) => {
   try {
     res.clearCookie("jwt")
     res.status(200).json({ message: "Logout successfuly" })
   } catch (error) {
     res.status(500).json({ error: "Internal server error" });
+  }
+}
+
+export const acceptWork = async (req, res) => {
+  const { workid } = req.body
+  // console.log(workid)
+  try {
+    //find work by id
+    const work = await workInfo.findOne({ _id: workid })
+    // console.log(work)
+    if (!work) {
+      return res.status(400).json({ error: "No work found" })
+    }
+
+    //check if all bramhan already accepted
+    if (work.noOfBramhanweave >= work.noOfBramhanrequired) {
+      return res.status(400).json({ error: "All bramhan already accepted" })
+    }
+
+    //check if bramhan already accepted
+    const allRedyPresent = await workInfo.findOne({
+      _id: workid,
+      bramhan: { $in: [req.bramhan._id] }
+    });
+
+    if (allRedyPresent) {
+      // console.log(allRedyPresent)
+      return res.status(400).json({ error: "You already accepted this work" })
+    }
+    //accept work
+    const bramhan = await Bramhin.findByIdAndUpdate(
+      req.bramhan._id,
+      { $push: { worksaceept: workid } },
+      { new: true, useFindAndModify: false })
+
+      //update noOfBramhanweave in workInfo
+    await workInfo.findByIdAndUpdate(
+      workid,
+      { $inc: { noOfBramhanweave: 1 } },
+      { new: true, useFindAndModify: false })
+
+      //update noOfBramhanrequired in workInfo
+    await workInfo.findByIdAndUpdate(
+      workid,
+      { $inc: { noOfBramhanrequired: -1 } },
+      { new: true, useFindAndModify: false })
+
+      //update bramhan in workInfo
+    await workInfo.findByIdAndUpdate(
+      workid,
+      { $push: { bramhan: req.bramhan._id } },
+      { new: true, useFindAndModify: false })
+
+    res.status(201).json({ message: "Work accepted" })
+  } catch (error) {
+    console.log("error in acceptwork controller" + error);
+    res.status(500).json({ error: "Internal server error" })
+
   }
 }
 

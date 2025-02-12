@@ -7,7 +7,7 @@ import Home from './components/Home'
 import Addwork from './components/Addwork';
 import About from './components/About';
 import Profile from './components/Profile';
-import HRY from './components/HRY';
+import WRY from './components/WRY';
 import SignupBramhin from './components/SignupBramhin';
 import LoginBramhin from './components/LoginBramhin';
 import { useLocation } from 'react-router-dom';
@@ -28,7 +28,7 @@ function App() {
     <>
     <Routes>
     <Route path='/login' element={role==='user'?<LoginUser/>:<LoginBramhin/>}/>
-    <Route path='/' element={<HRY/>}/>
+    <Route path='/' element={<WRY/>}/>
     <Route path='/signup' element={role==='user'?<SignupUser/>:<SignupBramhin/>}/>
     <Route path='/home' element={<Home/>}/>
     <Route path='/work' element={<Addwork/>}/>

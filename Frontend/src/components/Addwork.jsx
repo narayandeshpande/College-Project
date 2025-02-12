@@ -3,8 +3,12 @@ import axios from 'axios'
 import toast from 'react-hot-toast'
 import { useForm } from "react-hook-form"
 import { useNavigate } from 'react-router-dom'
+import { useLocation } from 'react-router-dom';
 const Addwork = () => {
   const navigate = useNavigate();
+  const location = useLocation();
+  const params = new URLSearchParams(location.search);
+  const role = params.get('role');
   const {
     register,
     handleSubmit,
@@ -22,22 +26,22 @@ const Addwork = () => {
       money: data.money,
       phone: data.phone,
       maplink: data.maplink,
-      noOfBraman: data.count,
+      noOfBrahman: data.count,
       note: data.note
     }
-    await axios.post("http://localhost:4000/work/addwork", workInfo, {
+    await axios.post("http://localhost:3000/work/addwork", workInfo, {
       withCredentials: true
     })
       .then((res) => {
         if (res.status === 201) {
           toast.success(res.data.message)
           setTimeout(() => {
-            navigate("/home")
+            navigate(`/home?role=${role}`)
           }, 2000)
         }
       })
       .catch((error) => {
-        toast.error(errors.response.data.error)
+        toast.error(error.response.data.error)
         console.log(error);
 
       })

@@ -17,7 +17,7 @@ const Navbar = () => {
     setShow(!show)
   }
   const handelOnclick = async () => {
-    await axios.get("http://localhost:4000/user/logout",{
+    await axios.get("http://localhost:3000/user/logout",{
       withCredentials:true
     })
       .then((res) => {
@@ -70,7 +70,6 @@ const Navbar = () => {
               </ul>
             </div>
           )
-
         }
       </div>
     </>
