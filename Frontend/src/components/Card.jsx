@@ -1,28 +1,28 @@
 import React from 'react';
 import axios from 'axios';
 import toast from 'react-hot-toast';
-import  useSelectWork  from '../zustand/useSelectWork.js';
+import useSelectWork from '../zustand/useSelectWork.js';
 const Card = ({ work }) => {
-  const {selectedWork,setSelectedWork}=useSelectWork();
-  const handelOnclick = async() => {
-      setSelectedWork(work)
-      const workid = {
-        workid: work._id,
-      };
-      console.log( useSelectWork.getState().selectedWork._id);
-      await axios
+  const { selectedWork, setSelectedWork } = useSelectWork();
+  const handelOnclick = async () => {
+    setSelectedWork(work)
+    const workid = {
+      workid: work._id,
+    };
+    console.log(useSelectWork.getState().selectedWork._id);
+    await axios
       .post('http://localhost:3000/bramhin/acceptwork', workid, {
         withCredentials: true,
       })
 
-    .then((res)=>{
-      // console.log(res.data);
-      toast.success(res.data.message);
-    })
-    .catch((err)=>{
-      toast.error(err.response.data.error);
-      // console.log(err);
-    })
+      .then((res) => {
+        // console.log(res.data);
+        toast.success(res.data.message);
+      })
+      .catch((err) => {
+        toast.error(err.response.data.error);
+        // console.log(err);
+      })
   };
   return (
     <div className="flex justify-center items-center my-6">
@@ -44,14 +44,14 @@ const Card = ({ work }) => {
             <span>एकूण ब्राह्मण: <span className="font-normal">{work.noOfBrahman}</span></span>
             <span>अपेक्षित ब्राह्मण: <span className="font-normal">{work.noOfBramhanrequired}</span></span>
             <span>व्यवस्था झालेले ब्राह्मण: <span className="font-normal">{work.noOfBramhanweave}</span></span>
-            <span>Note: <span className="font-normal">{work. note}</span></span>
+            <span>Note: <span className="font-normal">{work.note}</span></span>
           </div>
 
           <button className="bg-blue-500 p-2 rounded-md font-semibold text-white hover:bg-blue-600 transition duration-300"
-          onClick={handelOnclick}
+            onClick={handelOnclick}
           >
             Apply
-            </button>
+          </button>
         </div>
       </div>
     </div>

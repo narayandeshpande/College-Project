@@ -61,6 +61,11 @@ const workInfoSchema=mongoose.Schema({
             createdBybramhin:{
                 type:mongoose.Schema.Types.ObjectId,
                 ref:'Brahman'
+            },
+            status:{
+                type:String,
+                require:true,
+                default:"Pending"
             }
 
 
