@@ -2,16 +2,16 @@ import React, { useEffect, useState, useRef } from "react";
 import { useNavigate, useLocation } from "react-router-dom";
 import axios from "axios";
 import Navbar from "./Navbar";
-import useSelectWork from "../zustand/useSelectWork.js";
-import Dialog from "./Dialog.jsx";
+// import useSelectWork from "../zustand/useSelectWork.js";
+import Buttons from "./Buttons.jsx";
+import Showwork from "./Showwork.jsx";
 
 const Profile = () => {
-  const { selectedWork, setSelectedWork } = useSelectWork();
+  // const { selectedWork, setSelectedWork } = useSelectWork();
   const location = useLocation();
   const params = new URLSearchParams(location.search);
   const role = params.get("role");
   const navigate = useNavigate();
-  const modalRef = useRef(null); // Modal reference
 
   const [data, setData] = useState([]);
   const [user, setUser] = useState({});
@@ -38,12 +38,7 @@ const Profile = () => {
     navigate("/edit-profile");
   };
 
-  const handleMoreButton = (work) => {
-    setSelectedWork(work); // Store the selected work
-    if (modalRef.current) {
-      modalRef.current.showModal(); // Open the modal
-    }
-  };
+
 
   return (
     <>
@@ -60,7 +55,8 @@ const Profile = () => {
           <div className="bg-white shadow-lg rounded-lg w-full max-w-md p-6 mx-4">
             <div className="text-center">
               <div className="w-24 h-24 mx-auto rounded-full bg-blue-100 flex items-center justify-center text-blue-500 text-4xl font-bold">
-                {user?.fullname?.[0] ?? "U"}
+                {user?.fullname?.[0]?.toUpperCase() ?? "U"}
+
               </div>
               <h2 className="mt-4 text-2xl font-semibold text-gray-800">{user?.name ?? "User"}</h2>
               <p className="text-gray-500">{user?.location ?? "Location not available"}</p>
@@ -85,39 +81,17 @@ const Profile = () => {
 
         <div className="mt-10 px-6">
           <h2 className="text-2xl font-bold text-gray-800 mb-4">Work History</h2>
-          <div className="space-y-4">
-            {data?.map((work) => (
-              <div key={work._id} className="bg-white shadow-md rounded-lg p-4 flex justify-between items-center">
-                <div>
-                  <h3 className="font-semibold text-lg">{work.workname}</h3>
-                  <p className="text-gray-500">{work.date.toString().split("T")[0]}</p>
-                </div>
-                <span
-                  className={`py-1 px-3 rounded-md text-sm ${
-                    work.status === "Completed"
-                      ? "bg-green-100 text-green-600"
-                      : "bg-yellow-100 text-yellow-600"
-                  }`}
-                >
-                  {work.status}
-                </span>
-
-                {role === "user" && (
-                  <button
-                    className="mt-2 w-[30%] bg-blue-500 text-white py-1 rounded-md hover:bg-blue-600 transition"
-                    onClick={() => handleMoreButton(work)}
-                  >
-                    More
-                  </button>
-                )}
-              </div>
-            ))}
-          </div>
+          {
+            role === 'user' ?
+              <div className="space-y-4">
+                {data?.map((work) => (
+                  <Showwork work={work} key={work._id}/>
+                ))}
+              </div> :
+            <Buttons/>
+          }
         </div>
       </div>
-
-      {/* Pass modalRef and selectedWork to Dialog */}
-      <Dialog selectedWork={selectedWork} modalRef={modalRef} />
     </>
   );
 };

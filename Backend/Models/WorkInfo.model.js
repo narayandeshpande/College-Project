@@ -66,6 +66,7 @@ const workInfoSchema=mongoose.Schema({
                 type:String,
                 require:true,
                 default:"Pending"
+                // Completed, Pending, Cancelled
             }
 
 

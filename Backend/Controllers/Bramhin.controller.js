@@ -131,19 +131,19 @@ export const acceptWork = async (req, res) => {
       { $push: { worksaceept: workid } },
       { new: true, useFindAndModify: false })
 
-      //update noOfBramhanweave in workInfo
+    //update noOfBramhanweave in workInfo
     await workInfo.findByIdAndUpdate(
       workid,
       { $inc: { noOfBramhanweave: 1 } },
       { new: true, useFindAndModify: false })
 
-      //update noOfBramhanrequired in workInfo
+    //update noOfBramhanrequired in workInfo
     await workInfo.findByIdAndUpdate(
       workid,
       { $inc: { noOfBramhanrequired: -1 } },
       { new: true, useFindAndModify: false })
 
-      //update bramhan in workInfo
+    //update bramhan in workInfo
     await workInfo.findByIdAndUpdate(
       workid,
       { $push: { bramhan: req.bramhan._id } },
@@ -157,5 +157,39 @@ export const acceptWork = async (req, res) => {
   }
 }
 
+export const allAcceptedWork = async (req, res) => {
+  try {
+    const bramhan = req.bramhan;
+
+    // Use Promise.all to wait for all async operations
+    const allwork = await Promise.all(
+      bramhan.worksaceept.map(async (id) => {
+        return await workInfo.findById(id);
+      })
+    );
+// console.log(allwork); // Now it contains all the fetched work
+    res.status(200).json(allwork);
+  } catch (error) {
+    console.log("error in allAcceptedWork controller" + error);
+    res.status(500).json({ error: "Internal server error" })
+  }
+}
+
+export const allCreatedWork=async(req,res)=>{
+  try {
+    const bramhan=req.bramhan;
+    const allwork=await Promise.all(
+      bramhan.workscreate.map(async(id)=>{
+        return await workInfo.findById(id);
+      })
+    );
+    console.log(allwork)
+    res.status(200).json(allwork)
+  } catch (error) {
+    console.log("error in allCreatedWork controller" + error);
+    res.status(500).json({ error: "Internal server error" })
+    
+  }
+}
 
 

@@ -10,15 +10,15 @@ const Navbar = () => {
   const location = useLocation();
   const params = new URLSearchParams(location.search);
   const role = params.get('role');
-  
+
   const navigate = useNavigate();
   const [show, setShow] = useState(false)
   const handelShow = () => {
     setShow(!show)
   }
   const handelOnclick = async () => {
-    await axios.get("http://localhost:3000/user/logout",{
-      withCredentials:true
+    await axios.get("http://localhost:3000/user/logout", {
+      withCredentials: true
     })
       .then((res) => {
         if (res.status === 200) {
@@ -42,9 +42,9 @@ const Navbar = () => {
           </div>
           <div className="">
             <ul className='flex gap-3 mr-4 justify-center items-center'>
-            <Link className='cursor-pointer hover:text-blue-200 font-bold' to={`/home?role=${role}`}>Home</Link>
-                <Link className='cursor-pointer hover:text-blue-200 font-bold' to={`/about?role=${role}`}>About</Link>
-                <Link className='cursor-pointer hover:text-blue-200 font-bold' to={`/profile?role=${role}`}>Profile</Link>
+              <Link className='cursor-pointer hover:text-blue-200 font-bold' to={`/home?role=${role}`}>Home</Link>
+              <Link className='cursor-pointer hover:text-blue-200 font-bold' to={`/about?role=${role}`}>About</Link>
+              <Link className='cursor-pointer hover:text-blue-200 font-bold' to={`/profile?role=${role}`}>Profile</Link>
               <li className='cursor-pointer hover:text-blue-200  text-2xl'><LuLogOut onClick={handelOnclick} className='text-3xl' /></li>
             </ul>
           </div>
@@ -66,7 +66,7 @@ const Navbar = () => {
                 <Link className='cursor-pointer text-lg font-bold' to={`/home?role=${role}`}>Home</Link>
                 <Link className='cursor-pointer text-lg  font-bold' to={`/about?role=${role}`}>About</Link>
                 <Link className='cursor-pointer text-lg font-bold' to={`/profile?role=${role}`}>Profile</Link>
-                <li className='cursor-pointer text-2xl'><LuLogOut onClick={handelOnclick} className='text-3xl font-bold'/></li>
+                <li className='cursor-pointer text-2xl'><LuLogOut onClick={handelOnclick} className='text-3xl font-bold' /></li>
               </ul>
             </div>
           )

@@ -1,5 +1,5 @@
 import express from 'express'
-import { acceptWork, login, logout, sendOTP, signup } from '../Controllers/Bramhin.controller.js';
+import { acceptWork, allAcceptedWork, allCreatedWork, login, logout, sendOTP, signup } from '../Controllers/Bramhin.controller.js';
 import secureRoute from '../Middleware/secureRoute.js';
 
 
@@ -9,4 +9,6 @@ router.post("/sendotp",sendOTP);
 router.post('/login',login);
 router.get('/logout',logout);
 router.post('/acceptwork',secureRoute,acceptWork)
+router.get('/allacceptedwork',secureRoute,allAcceptedWork)
+router.get('/allcreatework',secureRoute,allCreatedWork)
 export default router;
