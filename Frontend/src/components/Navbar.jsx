@@ -1,79 +1,69 @@
-import React, { useState } from 'react'
+import React from 'react';
 import { LuLogOut } from "react-icons/lu";
-import { FiAlignJustify } from "react-icons/fi";
-import { useLocation } from 'react-router-dom';
-import { Link, useNavigate } from 'react-router-dom';
-import { RxCross1 } from "react-icons/rx";
-import toast from 'react-hot-toast'
-import axios from "axios"
+import { MdAddBox } from "react-icons/md";
+import { IoHomeSharp } from "react-icons/io5";
+import { FaUserCircle } from "react-icons/fa";
+import { MdInfo } from "react-icons/md";
+import { Link, useNavigate, useLocation } from 'react-router-dom';
+import toast from 'react-hot-toast';
+import axios from "axios";
+
 const Navbar = () => {
   const location = useLocation();
   const params = new URLSearchParams(location.search);
   const role = params.get('role');
-
   const navigate = useNavigate();
-  const [show, setShow] = useState(false)
-  const handelShow = () => {
-    setShow(!show)
-  }
-  const handelOnclick = async () => {
-    await axios.get("http://localhost:3000/user/logout", {
-      withCredentials: true
-    })
-      .then((res) => {
-        if (res.status === 200) {
-          toast.success(res.data.message)
-        }
-        setTimeout(() => {
-          navigate("/")
-        }, 2000);
-      })
-      .catch((error) => {
-        console.log(error)
-        toast.error(error.response.data.error)
-      })
-  }
-  return (
-    <>
-      <div className="hidden md:block m-0">
-        <nav className="fixed top-0 left-0 w-full flex justify-between bg-blue-500 p-3 text-white z-50">
-          <div className="">
-            <h1 className='font-semibold text-2xl'>उद्योग व्यवस्था</h1>
-          </div>
-          <div className="">
-            <ul className='flex gap-3 mr-4 justify-center items-center'>
-              <Link className='cursor-pointer hover:text-blue-200 font-bold' to={`/home?role=${role}`}>Home</Link>
-              <Link className='cursor-pointer hover:text-blue-200 font-bold' to={`/about?role=${role}`}>About</Link>
-              <Link className='cursor-pointer hover:text-blue-200 font-bold' to={`/profile?role=${role}`}>Profile</Link>
-              <li className='cursor-pointer hover:text-blue-200  text-2xl'><LuLogOut onClick={handelOnclick} className='text-3xl' /></li>
-            </ul>
-          </div>
-        </nav>
-      </div>
-      <div className="block md:hidden">
-        <nav className='fixed top-0 left-0 w-full flex justify-between bg-blue-500 p-3 text-white items-center z-50'>
-          <div className="">
-            {show ? <RxCross1 onClick={handelShow} /> : <FiAlignJustify onClick={handelShow} />}
-          </div>
-          <div className="">
-            <h1 className='font-semibold text-2xl'>उद्योग व्यवस्था</h1>
-          </div>
-        </nav>
-        {
-          show && (
-            <div className="flex">
-              <ul className=" fixed flex flex-col h-screen justify-center items-center w-screen bg-gray-600  text-white">
-                <Link className='cursor-pointer text-lg font-bold' to={`/home?role=${role}`}>Home</Link>
-                <Link className='cursor-pointer text-lg  font-bold' to={`/about?role=${role}`}>About</Link>
-                <Link className='cursor-pointer text-lg font-bold' to={`/profile?role=${role}`}>Profile</Link>
-                <li className='cursor-pointer text-2xl'><LuLogOut onClick={handelOnclick} className='text-3xl font-bold' /></li>
-              </ul>
-            </div>
-          )
-        }
-      </div>
-    </>
-  )
-}
 
-export default Navbar
+  const handleLogout = async () => {
+    try {
+      const res = await axios.get("http://localhost:3000/user/logout", { withCredentials: true });
+      if (res.status === 200) {
+        toast.success(res.data.message);
+        navigate("/");
+      }
+    } catch (error) {
+      console.error(error);
+      toast.error(error.response?.data?.error || "Logout failed");
+    }
+  };
+
+  return (
+    <nav className="fixed bottom-0 left-0 w-full bg-gray-800 p-4 text-white shadow-lg z-50 md:hidden">
+      <div className="flex justify-around items-center">
+        {/* Home */}
+        <Link to={`/home?role=${role}`} className="flex flex-col items-center text-gray-300 hover:text-white transition">
+          <IoHomeSharp className="text-2xl" />
+          <span className="text-xs">Home</span>
+        </Link>
+
+        {/* About */}
+        <Link to={`/about?role=${role}`} className="flex flex-col items-center text-gray-300 hover:text-white transition">
+          <MdInfo className="text-2xl" />
+          <span className="text-xs">About</span>
+        </Link>
+
+        <Link to={`/work?role=${role}`} className="flex flex-col items-center text-gray-300 hover:text-white transition">
+             <MdAddBox
+                    className="text-3xl"
+                    onClick={() => navigate(`/work?role=${role}`)}
+                  />
+          <span className="text-xs">Add Work</span>
+        </Link>
+
+        {/* Profile */}
+        <Link to={`/profile?role=${role}`} className="flex flex-col items-center text-gray-300 hover:text-white transition">
+          <FaUserCircle className="text-2xl" />
+          <span className="text-xs">Profile</span>
+        </Link>
+
+        {/* Logout */}
+        <button onClick={handleLogout} className="flex flex-col items-center text-gray-300 hover:text-white transition">
+          <LuLogOut className="text-2xl" />
+          <span className="text-xs">Logout</span>
+        </button>
+      </div>
+    </nav>
+  );
+};
+
+export default Navbar;

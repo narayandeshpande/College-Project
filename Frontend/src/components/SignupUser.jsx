@@ -6,9 +6,6 @@ import { Link } from 'react-router-dom';
 import toast from 'react-hot-toast';
 
 const SignupUser = () => {
-
-
-
   const { register, handleSubmit, watch, formState: { errors } } = useForm();
   const navigate = useNavigate();
 
@@ -37,7 +34,7 @@ const SignupUser = () => {
       otp: watch("otp"),
     };
 
-    console.log("otp button clicked");
+    console.log("OTP button clicked");
     try {
       const res = await axios.post("http://localhost:3000/user/emailotp", currentUserInfo, {
         withCredentials: true
@@ -49,8 +46,8 @@ const SignupUser = () => {
   };
 
   return (
-    <div className="flex justify-center items-center h-screen bg-gray-100">
-      <div className="w-full max-w-md bg-white rounded-lg shadow-lg p-6">
+    <div className="flex justify-center items-center h-screen bg-gray-600">
+      <div className="w-full max-w-md bg-white rounded-lg shadow-lg p-6 m-4">
         <h1 className="text-2xl font-bold text-gray-800 text-center mb-6">Signup</h1>
 
         <form onSubmit={handleSubmit(onSubmit)} className="space-y-4">
@@ -61,7 +58,8 @@ const SignupUser = () => {
             <input
               type="text"
               id="name"
-              className={`w-full px-4 py-2 border rounded-lg text-gray-700 focus:outline-none focus:ring-2 focus:ring-blue-500 ${errors.fullname ? 'border-red-500' : 'border-gray-300'}`}
+              className={`w-full px-4 py-2 border rounded-lg bg-gray-800 text-white placeholder-white focus:outline-none focus:ring-2 focus:ring-blue-500 ${errors.fullname ? 'border-red-500' : 'border-gray-300'}`}
+              // placeholder="Enter your full name"
               {...register("fullname", { required: "Full name is required" })}
             />
             {errors.fullname && (
@@ -76,7 +74,8 @@ const SignupUser = () => {
             <input
               type="email"
               id="email"
-              className={`w-full px-4 py-2 border rounded-lg text-gray-700 focus:outline-none focus:ring-2 focus:ring-blue-500 ${errors.email ? 'border-red-500' : 'border-gray-300'}`}
+              className={`w-full px-4 py-2 border rounded-lg bg-gray-800 text-white placeholder-white focus:outline-none focus:ring-2 focus:ring-blue-500 ${errors.email ? 'border-red-500' : 'border-gray-300'}`}
+              // placeholder="Enter your email"
               {...register("email", { required: "Email is required" })}
             />
             {errors.email && (
@@ -91,7 +90,8 @@ const SignupUser = () => {
             <input
               type="password"
               id="password"
-              className={`w-full px-4 py-2 border rounded-lg text-gray-700 focus:outline-none focus:ring-2 focus:ring-blue-500 ${errors.password ? 'border-red-500' : 'border-gray-300'}`}
+              className={`w-full px-4 py-2 border rounded-lg bg-gray-800 text-white placeholder-white focus:outline-none focus:ring-2 focus:ring-blue-500 ${errors.password ? 'border-red-500' : 'border-gray-300'}`}
+              // placeholder="Enter your password"
               {...register("password", { required: "Password is required" })}
             />
             {errors.password && (
@@ -106,7 +106,8 @@ const SignupUser = () => {
             <input
               type="text"
               id="otp"
-              className={`w-full px-4 py-2 border rounded-lg text-gray-700 focus:outline-none focus:ring-2 focus:ring-blue-500 ${errors.otp ? 'border-red-500' : 'border-gray-300'}`}
+              className={`w-full px-4 py-2 border rounded-lg bg-gray-800 text-white placeholder-white focus:outline-none focus:ring-2 focus:ring-blue-500 ${errors.otp ? 'border-red-500' : 'border-gray-300'}`}
+              // placeholder="Enter OTP"
               {...register("otp", { required: "OTP is required" })}
             />
             {errors.otp && (

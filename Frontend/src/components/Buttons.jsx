@@ -1,5 +1,5 @@
 import { useNavigate, useLocation } from "react-router-dom";
-import { React, useState } from "react";
+import { React, useState, useEffect } from "react";
 import useGetAllCreatedWork from "../Context/useGetAllCreatedWork";
 import Showwork from "./Showwork";
 import useGetAllAcceptedWork from "../Context/useGetAllAcceptedWork";
@@ -9,13 +9,23 @@ const Buttons = () => {
     const location = useLocation(); // Get current URL
     const [allCreateWork] = useGetAllCreatedWork();
     const [allacceptedwork] = useGetAllAcceptedWork();
+
+    const [allCreatedworkisnull, setAllCreatedworkisnull] = useState(false);
+    const [allAcceptedworkisnull, setAllAcceptedworkisnull] = useState(false);
+
     const [showcreated, setShowcreated] = useState(false);
     const [showaccepted, setShowaccepted] = useState(false);
+
+    // Effect to update state when work data changes
+    useEffect(() => {
+        setAllCreatedworkisnull(allCreateWork.length > 0);
+        setAllAcceptedworkisnull(allacceptedwork.length > 0);
+    }, [allCreateWork, allacceptedwork]);
 
     const handleAllCreatedWork = () => {
         setShowcreated(true);
         setShowaccepted(false);
-        
+
         // Update URL with query parameter
         navigate(`${location.pathname}?role=Bramhin&more=true`);
     };
@@ -23,7 +33,7 @@ const Buttons = () => {
     const handleAllAcceptedWork = () => {
         setShowaccepted(true);
         setShowcreated(false);
-        
+
         // Remove "more=true" when clicking "Accepted Work"
         navigate(`${location.pathname}?role=Bramhin`);
     };
@@ -44,19 +54,29 @@ const Buttons = () => {
                 Created Work
             </button>
 
+            {/* Render Created Work */}
             {showcreated &&
-                allCreateWork.map((work, index) => (
-                    <div className="m-3" key={index}>
-                        <Showwork work={work} />
-                    </div>
+                (allCreatedworkisnull ? (
+                    allCreateWork.map((work, index) => (
+                        <div className="m-3" key={index}>
+                            <Showwork work={work} />
+                        </div>
+                    ))
+                ) : (
+                    <p>No created work available</p>
                 ))
             }
 
+            {/* Render Accepted Work */}
             {showaccepted &&
-                allacceptedwork.map((work, index) => (
-                    <div className="m-3" key={index}>
-                        <Showwork work={work} />
-                    </div>
+                (allAcceptedworkisnull ? (
+                    allacceptedwork.map((work, index) => (
+                        <div className="m-3" key={index}>
+                            <Showwork work={work} />
+                        </div>
+                    ))
+                ) : (
+                    <p>No accepted work available</p>
                 ))
             }
         </div>

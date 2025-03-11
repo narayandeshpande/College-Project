@@ -35,6 +35,7 @@ const Showwork = ({work}) => {
                     </span>
 
                     {(role === "user" || more==='true')&&(
+                      
                       <button
                         className="mt-2 w-[30%] bg-blue-500 text-white py-1 rounded-md hover:bg-blue-600 transition md:w-[10%]"
                         onClick={() => handleMoreButton(work)}

@@ -37,23 +37,96 @@ export const signup = async (req, res) => {
   }
 }
 export const sendOTP = (req, res) => {
-  const { email } = req.body
+  const { email } = req.body;
+
   try {
     const transporter = nodemailer.createTransport({
       service: "gmail",
       auth: {
         user: process.env.EMAIL_USER,
         pass: process.env.EMAIL_PASS
-        //  user:"narayandeshpande92@gmail.com",
-        //  pass:"qavb tvvg rykt rnvt"
       }
     });
+
     const mailOptions = {
       from: process.env.EMAIL_USER,
       to: email,
-      subject: "OTP for creating Account",
-      html: `<p>${OTP}</p>`
+      subject: "🔐 Your One-Time Password (OTP) for Account Verification",
+      html: `
+        <!DOCTYPE html>
+        <html>
+        <head>
+          <style>
+            body {
+              font-family: Arial, sans-serif;
+              background-color: #f4f4f4;
+              padding: 20px;
+            }
+            .container {
+              max-width: 600px;
+              margin: auto;
+              background: #ffffff;
+              padding: 20px;
+              border-radius: 8px;
+              box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1);
+            }
+            .header {
+              text-align: center;
+              font-size: 24px;
+              font-weight: bold;
+              color: #333;
+            }
+            .otp {
+              font-size: 28px;
+              font-weight: bold;
+              color: #ff5733;
+              text-align: center;
+              margin: 20px 0;
+            }
+            .message {
+              font-size: 16px;
+              color: #333;
+              line-height: 1.5;
+            }
+            .footer {
+              margin-top: 20px;
+              font-size: 14px;
+              color: #777;
+              text-align: center;
+            }
+          </style>
+        </head>
+        <body>
+          <div class="container">
+            <div class="header">🔐 Account Verification OTP</div>
+            
+            <p class="message">Dear Customer,</p>
+            <p class="message">To complete your profile creation/update, please use the OTP below to verify your identity.</p>
+    
+            <div class="otp">${OTP}</div>
+    
+            <p class="message"><strong>Note:</strong> Please do not share this OTP with anyone. Our team will never ask for it.</p>
+            <p class="message">If you did not request this OTP, you may ignore this email.</p>
+    
+            <hr>
+    
+            <div class="header">🔐 खात्याची ओळख पटवण्यासाठी OTP</div>
+    
+            <p class="message">प्रिय ग्राहक,</p>
+            <p class="message">तुमच्या प्रोफाइलच्या निर्मिती/सुधारणेसाठी, कृपया खालील OTP वापरून तुमची ओळख सत्यापित करा.</p>
+    
+            <div class="otp">${OTP}</div>
+    
+            <p class="message"><strong>टीप:</strong> कृपया हा OTP कोणालाही शेअर करू नका. आमची टीम तो कधीही विचारणार नाही.</p>
+            <p class="message">जर तुम्ही हा OTP मागवलेला नसेल, तर कृपया हा ईमेल दुर्लक्षित करा.</p>
+    
+            <div class="footer">Thank you | धन्यवाद!</div>
+          </div>
+        </body>
+        </html>
+      `
     };
+    
 
     transporter.sendMail(mailOptions, (error, info) => {
       if (error) {
@@ -61,16 +134,16 @@ export const sendOTP = (req, res) => {
         return res.status(500).json({ error: 'Error sending email' });
       } else {
         console.log("Email sent: " + info.response);
-        return res.status(200).json({
-          message: "OTP send"
-        });
+        return res.status(200).json({ message: "OTP sent successfully" });
       }
     });
+
   } catch (error) {
     console.error(error);
     return res.status(500).json({ error: 'Internal Server Error' });
   }
-}
+};
+
 
 export const login = async (req, res) => {
   const { email, password } = req.body;
@@ -167,7 +240,7 @@ export const allAcceptedWork = async (req, res) => {
         return await workInfo.findById(id);
       })
     );
-// console.log(allwork); // Now it contains all the fetched work
+    // console.log(allwork); // Now it contains all the fetched work
     res.status(200).json(allwork);
   } catch (error) {
     console.log("error in allAcceptedWork controller" + error);
@@ -175,20 +248,47 @@ export const allAcceptedWork = async (req, res) => {
   }
 }
 
-export const allCreatedWork=async(req,res)=>{
+export const allCreatedWork = async (req, res) => {
   try {
-    const bramhan=req.bramhan;
-    const allwork=await Promise.all(
-      bramhan.workscreate.map(async(id)=>{
+    const bramhan = req.bramhan;
+    const allwork = await Promise.all(
+      bramhan.workscreate.map(async (id) => {
         return await workInfo.findById(id);
       })
     );
-    console.log(allwork)
+    // console.log(allwork)
     res.status(200).json(allwork)
   } catch (error) {
     console.log("error in allCreatedWork controller" + error);
     res.status(500).json({ error: "Internal server error" })
-    
+
+  }
+}
+
+export const updateProfile = async (req, res) => {
+  const { fullname, email, password, no, place, otp } = req.body;
+  //  console.log(fullname,email,password,no,place)
+  try {
+
+    if (OTP == otp) {
+      const hashpass = await bcryptjs.hash(password, 10);
+      const bramhan = await Bramhin.findByIdAndUpdate(req.bramhan._id, {
+        fullname,
+        email,
+        password: hashpass,
+        phone: no,
+        address: place
+      })
+      await bramhan.save();
+      res.status(201).json({ message: "Profile updated successfully" })
+    }
+    else {
+      res.status(500).json({ message: "Invalid OTP" })
+    }
+  } catch (error) {
+    console.log("error in updateProfile controller" + error);
+    res.status(500).json({ error: "Internal server error" })
+
   }
 }
 

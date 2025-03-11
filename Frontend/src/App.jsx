@@ -1,7 +1,7 @@
 import { Toaster } from 'react-hot-toast';
 import './App.css'
-import SignupUser from './components/SignupUser'
 import { Routes, Route } from 'react-router-dom'
+import SignupUser from './components/SignupUser'
 import LoginUser from './components/LoginUser'
 import Home from './components/Home'
 import Addwork from './components/Addwork';
@@ -10,7 +10,9 @@ import Profile from './components/Profile';
 import WRY from './components/WRY';
 import SignupBramhin from './components/SignupBramhin';
 import LoginBramhin from './components/LoginBramhin';
+import EditProfileBramhin from './components/EditProfileBramhin';
 import { useLocation } from 'react-router-dom';
+import EditProfileUser from './components/EditProfileUser';
 function App() {
   
   // const { protocol, hostname, pathname } = window.location;
@@ -34,6 +36,7 @@ function App() {
     <Route path='/work' element={<Addwork/>}/>
     <Route path='/about' element={<About/>}/>
     <Route path='/profile' element={<Profile/>}/>
+    <Route path='edit-profile' element={role==='user'?<EditProfileUser/>:<EditProfileBramhin/>}/>
     </Routes>
     <Toaster />
     </>

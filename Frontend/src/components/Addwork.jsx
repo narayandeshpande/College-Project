@@ -1,20 +1,21 @@
-import React from 'react'
-import axios from 'axios'
-import toast from 'react-hot-toast'
-import { useForm } from "react-hook-form"
-import { useNavigate } from 'react-router-dom'
-import { useLocation } from 'react-router-dom';
+import React from 'react';
+import axios from 'axios';
+import toast from 'react-hot-toast';
+import { useForm } from "react-hook-form";
+import { useNavigate, useLocation } from 'react-router-dom';
+import Navbar from './Navbar';
+
 const Addwork = () => {
   const navigate = useNavigate();
   const location = useLocation();
   const params = new URLSearchParams(location.search);
   const role = params.get('role');
+
   const {
     register,
     handleSubmit,
-    watch,
     formState: { errors },
-  } = useForm()
+  } = useForm();
 
   const onSubmit = async (data) => {
     const workInfo = {
@@ -27,96 +28,128 @@ const Addwork = () => {
       phone: data.phone,
       maplink: data.maplink,
       noOfBrahman: data.count,
-      note: data.note
+      note: data.note,
+    };
+
+    try {
+      const res = await axios.post("http://localhost:3000/work/addwork", workInfo, {
+        withCredentials: true,
+      });
+
+      if (res.status === 201) {
+        toast.success(res.data.message);
+        setTimeout(() => {
+          navigate(`/home?role=${role}`);
+        }, 2000);
+      }
+    } catch (error) {
+      toast.error(error.response?.data?.error || "Something went wrong");
+      console.log(error);
     }
-    await axios.post("http://localhost:3000/work/addwork", workInfo, {
-      withCredentials: true
-    })
-      .then((res) => {
-        if (res.status === 201) {
-          toast.success(res.data.message)
-          setTimeout(() => {
-            navigate(`/home?role=${role}`)
-          }, 2000)
-        }
-      })
-      .catch((error) => {
-        toast.error(error.response.data.error)
-        console.log(error);
-
-      })
-  }
-
+  };
 
   return (
-    <div className='flex justify-center items-center h-screen w-screen'>
-      <form onSubmit={handleSubmit(onSubmit)} className='flex flex-col justify-center border border-white md:w-[40%] md:h-[90%] rounded-lg items-center w-[90%] h-[73%]'>
-        <label htmlFor="work">कार्याचे नाव:</label>
-        <input type="text" name="work" id="work"
-          className='md:w-[50%] w-[90%] p-1 rounded-md border border-white bg-white text-black'
-          {...register("work", { required: true })}
-        />
-        {errors.work && <span className='text-sm text-rose-800'>This field is required</span>}
-        <label htmlFor="date">तारीख:</label>
-        <input type="date" name="date" id="date"
-          className='md:w-[50%] w-[90%] p-1 rounded-md border border-white bg-white text-black'
-          {...register("date", { required: true })}
-        />
-        {errors.date && <span className='text-sm text-rose-800'>This field is required</span>}
-        <label htmlFor="stime">सुरुवात वेळ</label>
-        <input type="time" name="stime" id="stime"
-          className='md:w-[50%] w-[90%] p-1 rounded-md border border-white bg-white text-black'
-          {...register("stime", { required: true })}
-        />
-        {errors.stime && <span className='text-sm text-rose-800'>This field is required</span>}
-        <label htmlFor="ftime">समाप्त वेळ</label>
-        <input type="time" name="ftime" id="ftime"
-          className='md:w-[50%] w-[90%] p-1 rounded-md border border-white bg-white text-black'
-          {...register("ftime", { required: true })}
-        />
-        {errors.ftime && <span className='text-sm text-rose-800'>This field is required</span>}
-        <label htmlFor="place">ठिकाण:</label>
-        <input type="text" name="place" id="place"
-          className='md:w-[50%] w-[90%] p-1 rounded-md border border-white bg-white text-black'
-          {...register("place", { required: true })}
-        />
-        {errors.place && <span className='text-sm text-rose-800'>This field is required</span>}
-        <label htmlFor="money">दक्षिणा:</label>
-        <input type="text" name="monet" id="money"
-          className='md:w-[50%] w-[90%] p-1 rounded-md border border-white bg-white text-black'
-          {...register("money", { required: true })}
-        />
-        {errors.money && <span className='text-sm text-rose-800'>This field is required</span>}
-        <label htmlFor="phone">मोबाईल No.</label>
-        <input type="text" name="phone" id="phone"
-          className='md:w-[50%] w-[90%] p-1 rounded-md border border-white bg-white text-black'
-          {...register("phone", { required: true })}
-        />
-        {errors.phone && <span className='text-sm text-rose-800'>This field is required</span>}
-        <label htmlFor="maplink">Map Link:</label>
-        <input type="text" name="maplink" id="maplink"
-          className='md:w-[50%] w-[90%] p-1 rounded-md border border-white bg-white text-black'
-          {...register("maplink", { required: true })}
-        />
-        {errors.maplink && <span className='text-sm text-rose-800'>This field is required</span>}
-        <label htmlFor="count">किती ब्राह्मण हवे आहेत:</label>
-        <input type="text" name="count" id="count"
-          className='md:w-[50%] w-[90%] p-1 rounded-md border border-white bg-white text-black'
-          {...register("count", { required: true })}
-        />
-        {errors.count && <span className='text-sm text-rose-800'>This field is required</span>}
-        <label htmlFor="note">टीप:</label>
-        <input type="text" name="note" id="note"
-          className='md:w-[50%] w-[90%] p-1 rounded-md border border-white bg-white text-black'
-          {...register("note", { required: false })}
-        />
-        {errors.note && <span className='text-sm text-rose-800'>This field is required</span>}
-        <input type="submit" value="Submit"
-          className='bg-blue-500 p-2 rounded-md cursor-pointer font-semibold m-2 hover:bg-blue-600 text-white'
-        />
-      </form>
-    </div>
-  )
-}
+    <div className="flex flex-col justify-center items-center min-h-screen bg-gray-100 p-4">
+      <form 
+        onSubmit={handleSubmit(onSubmit)}
+        className="bg-white shadow-lg rounded-lg p-6 w-full max-w-lg mb-10"
+      >
+        <h2 className="text-2xl font-semibold text-center text-gray-700 mb-4">कार्याची माहिती</h2>
 
-export default Addwork
+        <div className="space-y-4">
+          {/* Work Name */}
+          <div>
+            <label className="block text-gray-600 font-medium">कार्याचे नाव:</label>
+            <input type="text" {...register("work", { required: true })} 
+              className="w-full p-2 border rounded-md outline-none focus:ring-2 focus:ring-blue-400" />
+            {errors.work && <span className="text-red-500 text-sm">This field is required</span>}
+          </div>
+
+          {/* Date */}
+          <div>
+            <label className="block text-gray-600 font-medium">तारीख:</label>
+            <input type="date" {...register("date", { required: true })} 
+              className="w-full p-2 border rounded-md outline-none focus:ring-2 focus:ring-blue-400" />
+            {errors.date && <span className="text-red-500 text-sm">This field is required</span>}
+          </div>
+
+          {/* Time Fields */}
+          <div className="grid grid-cols-2 gap-4">
+            <div>
+              <label className="block text-gray-600 font-medium">सुरुवात वेळ:</label>
+              <input type="time" {...register("stime", { required: true })} 
+                className="w-full p-2 border rounded-md outline-none focus:ring-2 focus:ring-blue-400" />
+              {errors.stime && <span className="text-red-500 text-sm">This field is required</span>}
+            </div>
+            <div>
+              <label className="block text-gray-600 font-medium">समाप्त वेळ:</label>
+              <input type="time" {...register("ftime", { required: true })} 
+                className="w-full p-2 border rounded-md outline-none focus:ring-2 focus:ring-blue-400" />
+              {errors.ftime && <span className="text-red-500 text-sm">This field is required</span>}
+            </div>
+          </div>
+
+          {/* Place */}
+          <div>
+            <label className="block text-gray-600 font-medium">ठिकाण:</label>
+            <input type="text" {...register("place", { required: true })} 
+              className="w-full p-2 border rounded-md outline-none focus:ring-2 focus:ring-blue-400" />
+            {errors.place && <span className="text-red-500 text-sm">This field is required</span>}
+          </div>
+
+          {/* Money */}
+          <div>
+            <label className="block text-gray-600 font-medium">दक्षिणा:</label>
+            <input type="number" {...register("money", { required: true })} 
+              className="w-full p-2 border rounded-md outline-none focus:ring-2 focus:ring-blue-400" />
+            {errors.money && <span className="text-red-500 text-sm">This field is required</span>}
+          </div>
+
+          {/* Phone */}
+          <div>
+            <label className="block text-gray-600 font-medium">मोबाईल No.:</label>
+            <input type="text" {...register("phone", { required: true })} 
+              className="w-full p-2 border rounded-md outline-none focus:ring-2 focus:ring-blue-400" />
+            {errors.phone && <span className="text-red-500 text-sm">This field is required</span>}
+          </div>
+
+          {/* Map Link */}
+          <div>
+            <label className="block text-gray-600 font-medium">Map Link:</label>
+            <input type="text" {...register("maplink", { required: false })} 
+              className="w-full p-2 border rounded-md outline-none focus:ring-2 focus:ring-blue-400" />
+          </div>
+
+          {/* No. of Brahmins */}
+          <div>
+            <label className="block text-gray-600 font-medium">किती ब्राह्मण हवे आहेत:</label>
+            <input type="number" {...register("count", { required: true })} 
+              className="w-full p-2 border rounded-md outline-none focus:ring-2 focus:ring-blue-400" />
+            {errors.count && <span className="text-red-500 text-sm">This field is required</span>}
+          </div>
+
+          {/* Note */}
+          <div>
+            <label className="block text-gray-600 font-medium">टीप:</label>
+            <textarea {...register("note")} 
+              className="w-full p-2 border rounded-md outline-none focus:ring-2 focus:ring-blue-400"></textarea>
+          </div>
+        </div>
+
+        {/* Submit Button */}
+        <button 
+          type="submit" 
+          className="w-full bg-blue-500 text-white py-2 rounded-md mt-4 hover:bg-blue-600 transition">
+          Submit
+        </button>
+      </form>
+
+      {/* Navbar Fix */}
+      <div className="mt-auto w-full relative">
+        <Navbar />
+      </div>
+    </div>
+  );
+};
+
+export default Addwork;

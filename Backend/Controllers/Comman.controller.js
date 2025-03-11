@@ -19,7 +19,7 @@ export const profile = async (req, res) => {
              });
         } 
         else if (role === 'Bramhin') {
-         console.log(req.bramhan)
+        //  console.log(req.bramhan)
             if (!req.bramhan || !req.bramhan.worksaceept) {
                 return res.status(400).json({ error: "Bramhin data not found" });
             }
