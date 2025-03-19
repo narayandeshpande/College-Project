@@ -36,7 +36,7 @@ const SignupBramhin = () => {
 
     console.log("otp button clicked");
     try {
-      const res = await axios.post("http://localhost:3000/bramhin/sendotp", currentUserInfo, {
+      const res = await axios.post("https://udyogvyavstha.onrender.com/bramhin/sendotp", currentUserInfo, {
         withCredentials: true
       });
       toast.success(res.data.message);
