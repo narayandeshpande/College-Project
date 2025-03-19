@@ -20,7 +20,7 @@ const LoginBramhin = () => {
     };
 
     await axios
-      .post('http://localhost:3000/bramhin/login', userInfo, {
+      .post('https://udyogvyavstha.onrender.com/bramhin/login', userInfo, {
         withCredentials: true,
       })
       .then((res) => {

@@ -32,7 +32,7 @@ const Addwork = () => {
     };
 
     try {
-      const res = await axios.post("http://localhost:3000/work/addwork", workInfo, {
+      const res = await axios.post("https://udyogvyavstha.onrender.com/work/addwork", workInfo, {
         withCredentials: true,
       });
 

@@ -5,7 +5,6 @@ import SignupUser from './components/SignupUser'
 import LoginUser from './components/LoginUser'
 import Home from './components/Home'
 import Addwork from './components/Addwork';
-import About from './components/About';
 import Profile from './components/Profile';
 import WRY from './components/WRY';
 import SignupBramhin from './components/SignupBramhin';
@@ -13,6 +12,8 @@ import LoginBramhin from './components/LoginBramhin';
 import EditProfileBramhin from './components/EditProfileBramhin';
 import { useLocation } from 'react-router-dom';
 import EditProfileUser from './components/EditProfileUser';
+import AboutUser from './components/AboutUser';
+import AboutBramhin from './components/AboutBramhin';
 function App() {
   
   // const { protocol, hostname, pathname } = window.location;
@@ -24,8 +25,6 @@ function App() {
   const params = new URLSearchParams(location.search);
   const role = params.get('role');
   console.log(role);
-
-
   return (
     <>
     <Routes>
@@ -34,7 +33,7 @@ function App() {
     <Route path='/signup' element={role==='user'?<SignupUser/>:<SignupBramhin/>}/>
     <Route path='/home' element={<Home/>}/>
     <Route path='/work' element={<Addwork/>}/>
-    <Route path='/about' element={<About/>}/>
+    <Route path='/about' element={role==='user'? <AboutUser/>:<AboutBramhin/>}/>
     <Route path='/profile' element={<Profile/>}/>
     <Route path='edit-profile' element={role==='user'?<EditProfileUser/>:<EditProfileBramhin/>}/>
     </Routes>

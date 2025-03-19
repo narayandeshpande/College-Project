@@ -17,13 +17,13 @@ const Profile = () => {
 
   const profile = async () => {
     try {
-      console.log("Fetching profile data for role:", role);
+      // console.log("Fetching profile data for role:", role);
       const res = await axios.post(
-        "http://localhost:3000/comman/profile",
+        "https://udyogvyavstha.onrender.com/comman/profile",
         { role },
         { withCredentials: true }
       );
-      console.log("Profile data received:", res.data);
+      // console.log("Profile data received:", res.data);
       setData(res.data.data);
       setUser(res.data.user);
     } catch (err) {

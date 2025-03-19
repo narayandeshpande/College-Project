@@ -11,7 +11,7 @@ const SignupBramhin = () => {
 
   const onSubmit = async (data) => {
     try {
-      const res = await axios.post("http://localhost:3000/bramhin/signup", data, {
+      const res = await axios.post("https://udyogvyavstha.onrender.com/bramhin/signup", data, {
         withCredentials: true
       });
       if (res.status === 201) {

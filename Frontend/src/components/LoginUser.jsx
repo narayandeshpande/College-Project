@@ -20,7 +20,7 @@ const LoginUser = () => {
     };
 
     await axios
-      .post('http://localhost:3000/user/login', userInfo, {
+      .post('https://udyogvyavstha.onrender.com/user/login', userInfo, {
         withCredentials: true,
       })
       .then((res) => {

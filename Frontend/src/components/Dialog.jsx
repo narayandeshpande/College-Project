@@ -17,7 +17,7 @@ const Dialog = ({ selectedWork, modalRef }) => {
   const handleComplete = async() => {
     // console.log("Complete");
     // console.log(selectedWork?._id);
-    await axios.post("http://localhost:3000/work/completeWork",{workId:selectedWork?._id},{withCredentials:true})
+    await axios.post("https://udyogvyavstha.onrender.com/work/completeWork",{workId:selectedWork?._id},{withCredentials:true})
     .then((res)=>{
       // console.log(res.data);
       toast.success(res.data.message);

@@ -16,7 +16,7 @@ const Navbar = () => {
 
   const handleLogout = async () => {
     try {
-      const res = await axios.get("http://localhost:3000/user/logout", { withCredentials: true });
+      const res = await axios.get("https://udyogvyavstha.onrender.com/user/logout", { withCredentials: true });
       if (res.status === 200) {
         toast.success(res.data.message);
         navigate("/");

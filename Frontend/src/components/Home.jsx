@@ -17,7 +17,7 @@ const Home = () => {
   const navigate = useNavigate();
 
   const handelOnclick = async () => {
-    await axios.get("http://localhost:3000/user/logout", { withCredentials: true })
+    await axios.get("https://udyogvyavstha.onrender.com/user/logout", { withCredentials: true })
       .then((res) => {
         if (res.status === 200) {
           toast.success(res.data.message);

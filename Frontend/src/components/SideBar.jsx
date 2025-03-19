@@ -6,7 +6,7 @@ import  toast  from 'react-hot-toast';
 const Sidebar = ({ role }) => {
           const navigate = useNavigate();
         const handelOnclick = async () => {
-                await axios.get("http://localhost:3000/user/logout", { withCredentials: true })
+                await axios.get("https://udyogvyavstha.onrender.com/user/logout", { withCredentials: true })
                   .then((res) => {
                         // console.log(res)
                     if (res.status === 200) {

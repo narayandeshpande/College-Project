@@ -12,7 +12,7 @@ const EditProfileBramhin = () => {
   const navigate = useNavigate();
 
   const onSubmit = async (data) => {
-    await axios.post("http://localhost:3000/bramhin/updateProfile", data, {withCredentials: true})
+    await axios.post("https://udyogvyavstha.onrender.com/bramhin/updateProfile", data, {withCredentials: true})
     .then((res)=>{
       toast.success(res.data.message);
       setTimeout(() => {

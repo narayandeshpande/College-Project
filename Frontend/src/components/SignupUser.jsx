@@ -11,7 +11,7 @@ const SignupUser = () => {
 
   const onSubmit = async (data) => {
     try {
-      const res = await axios.post("http://localhost:3000/user/signup", data, {
+      const res = await axios.post("https://udyogvyavstha.onrender.com/user/signup", data, {
         withCredentials: true
       });
       if (res.status === 201) {
@@ -36,7 +36,7 @@ const SignupUser = () => {
 
     console.log("OTP button clicked");
     try {
-      const res = await axios.post("http://localhost:3000/user/emailotp", currentUserInfo, {
+      const res = await axios.post("https://udyogvyavstha.onrender.com/user/emailotp", currentUserInfo, {
         withCredentials: true
       });
       toast.success(res.data.message);

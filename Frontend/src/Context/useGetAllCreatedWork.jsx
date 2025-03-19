@@ -5,7 +5,7 @@ const useGetAllCreatedWork = () => {
         const [allCreateWork, setallCreateWork] = useState([])
         useEffect(() => {
                 const getAllCreatedWork = async () => {
-                        await axios.get("http://localhost:3000/bramhin/allcreatework", { withCredentials: true })
+                        await axios.get("https://udyogvyavstha.onrender.com/bramhin/allcreatework", { withCredentials: true })
                                 .then((res) => {
                                         setallCreateWork(res.data);
                                 })

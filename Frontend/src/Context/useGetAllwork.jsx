@@ -8,7 +8,7 @@ useEffect(()=>{
         
                 const getAllwork=async()=>{
                        
-                               await axios.get("http://localhost:3000/work/home",{
+                               await axios.get("https://udyogvyavstha.onrender.com/work/home",{
                                         withCredentials:true
                                 })
                                 .then((res)=>{

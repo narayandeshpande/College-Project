@@ -14,7 +14,7 @@ const Card = ({ work }) => {
     setLoading(true);
     try {
       const res = await axios.post(
-        "http://localhost:3000/bramhin/acceptwork",
+        "https://udyogvyavstha.onrender.com/bramhin/acceptwork",
         workid,
         { withCredentials: true }
       );

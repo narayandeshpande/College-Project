@@ -12,7 +12,7 @@ const EditProfileUser = () => {
 
   const onSubmit = async (data) => {
     try {
-      const res = await axios.post("http://localhost:3000/user/updateProfile", data, { withCredentials: true });
+      const res = await axios.post("https://udyogvyavstha.onrender.com/user/updateProfile", data, { withCredentials: true });
       toast.success(res.data.message);
       setTimeout(() => navigate("/login?role=user"), 2000);
     } catch (error) {
@@ -22,7 +22,7 @@ const EditProfileUser = () => {
 
   const handleSendOTP = async () => {
     try {
-      const res = await axios.post("http://localhost:3000/user/emailotp", { email: watch("email") }, { withCredentials: true });
+      const res = await axios.post("https://udyogvyavstha.onrender.com/user/emailotp", { email: watch("email") }, { withCredentials: true });
       toast.success(res.data.message);
     } catch (error) {
       toast.error("Failed to send OTP");
