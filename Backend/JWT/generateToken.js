@@ -6,7 +6,7 @@ export const createTokenAndSaveCookie=(user_id,res)=>{
         });
         res.cookie("jwt",token,{
                 httpOnly:true,
-                secure:'production',
-                sameSite:"strict"
+                secure: true,
+                sameSite:"none"
         })        
 }
