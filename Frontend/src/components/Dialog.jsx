@@ -32,7 +32,7 @@ const Dialog = ({ selectedWork, modalRef }) => {
 
   const handleCancel = async() => {
 
-    await axios.post("http://localhost:3000/work/cancelWork",{workId:selectedWork?._id},{withCredentials:true})
+    await axios.post("https://udyogvyavstha.onrender.com/work/cancelWork",{workId:selectedWork?._id},{withCredentials:true})
     .then((res)=>{
       if(res.status===201){
         toast.success(res.data.message);
