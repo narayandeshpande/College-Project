@@ -193,7 +193,7 @@ export const acceptWork = async (req, res) => {
 
     //check if all bramhan already accepted
     
-    if (work.noOfBramhanweave >= work.noOfBramhanrequired) {
+    if (work.noOfBramhanweave>=Number(work.noOfBrahman)) {
       return res.status(400).json({ error: "All bramhan already accepted" })
     }
 
