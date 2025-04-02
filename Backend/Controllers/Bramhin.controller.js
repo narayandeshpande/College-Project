@@ -5,6 +5,7 @@ import bcryptjs from 'bcryptjs'
 import { createTokenAndSaveCookie } from '../JWT/generateToken.js';
 import workInfo from '../Models/WorkInfo.model.js';
 const OTP = Math.floor(100000 + Math.random() * 900000)
+
 export const signup = async (req, res) => {
   const { fullname, email, password, address, otp, no } = req.body;
   // console.log(fullname, email, password, address, otp, no)
@@ -165,12 +166,19 @@ export const login = async (req, res) => {
 
 export const logout = (req, res) => {
   try {
-    res.clearCookie("jwt")
-    res.status(200).json({ message: "Logout successfuly" })
+    res.cookie("jwt", "", {
+      httpOnly: true, // Ensure it matches the original settings
+      secure: true, // Keep same as when set
+      sameSite: "None", // Keep same as when set
+      expires: new Date(0), // Set to a past date to remove it
+    });
+    
+    res.status(200).json({ message: "Logout successful" });
   } catch (error) {
     res.status(500).json({ error: "Internal server error" });
   }
-}
+};
+
 
 export const acceptWork = async (req, res) => {
   const { workid } = req.body
@@ -184,6 +192,7 @@ export const acceptWork = async (req, res) => {
     }
 
     //check if all bramhan already accepted
+    
     if (work.noOfBramhanweave >= work.noOfBramhanrequired) {
       return res.status(400).json({ error: "All bramhan already accepted" })
     }

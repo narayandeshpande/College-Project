@@ -168,15 +168,21 @@ export const login = async (req, res) => {
   }
 }
 
-export const logout = async (req, res) => {
+export const logout = (req, res) => {
   try {
-    res.clearCookie("jwt")
-    res.status(200).json({ message: "Logout successfuly" })
-
+    res.cookie("jwt", "", {
+      httpOnly: true, // Ensure it matches the original settings
+      secure: true, // Keep same as when set
+      sameSite: "None", // Keep same as when set
+      expires: new Date(0), // Set to a past date to remove it
+    });
+    
+    res.status(200).json({ message: "Logout successful" });
   } catch (error) {
     res.status(500).json({ error: "Internal server error" });
   }
-}
+};
+
 
 export const updateProfile = async (req, res) => {
   const { fullname, email, password, no, place, otp } = req.body
