@@ -47,7 +47,7 @@ const Profile = () => {
     <div className="flex flex-col min-h-screen bg-gray-100">
       {/* Sidebar */}
       <Sidebar role={role} />
-      
+
       {/* Main Content */}
       <div className="flex-1 p-4 md:p-10 flex flex-col items-center">
         <div className="bg-white shadow-lg rounded-lg p-6 md:p-8 w-full max-w-lg md:max-w-2xl">
@@ -83,6 +83,7 @@ const Profile = () => {
         <div className="mt-6 md:mt-10 bg-white shadow-lg rounded-lg p-4 md:p-6 w-full max-w-lg md:max-w-2xl">
           <h2 className="text-xl md:text-2xl font-bold text-gray-800 border-b pb-2">Work History</h2>
           <div className="mt-2 md:mt-4 space-y-2 md:space-y-4 mb-10">
+            
             {role === 'user' ? (
               Array.isArray(data) && data.length > 0 ? (
                 data.map((work) => <Showwork work={work} key={work._id} />)

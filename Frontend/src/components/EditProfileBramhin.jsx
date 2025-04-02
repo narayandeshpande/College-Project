@@ -30,7 +30,7 @@ const EditProfileBramhin = () => {
       email: watch("email")
     };
     try {
-      const res = await axios.post("http://localhost:3000/bramhin/sendotp", newEmail, {
+      const res = await axios.post("https://udyogvyavstha.onrender.com/bramhin/sendotp", newEmail, {
         withCredentials: true
       });
       toast.success(res.data.message);
